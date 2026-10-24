@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Physics Test Solutions</title>
+<style>
+:root{
+  --bg:#faf9f5; --surface:#ffffff; --surface-alt:#f3f1ec;
+  --text:#1f1e1c; --text-2:#5f5e5a; --text-3:#8a8880;
+  --line:#e2dfd7; --line-2:#cfcbc0;
+  --accent:#185fa5; --accent-bg:#e6f1fb; --accent-line:#85b7eb;
+  --ok:#3b6d11; --ok-bg:#eaf3de; --ok-line:#97c459;
+  --warn:#854f0b; --warn-bg:#faeeda; --warn-line:#efc27a;
+  --charge:#d85a30; --e1:#d85a30; --e2:#185fa5; --force:#6b3fa0;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1a1915; --surface:#242320; --surface-alt:#2e2d28;
+    --text:#edebe4; --text-2:#b4b2a9; --text-3:#8a8880;
+    --line:#3a3833; --line-2:#4a4842;
+    --accent:#85b7eb; --accent-bg:#0c3254; --accent-line:#185fa5;
+    --ok:#97c459; --ok-bg:#1f3310; --ok-line:#3b6d11;
+    --warn:#efc27a; --warn-bg:#3a2a10; --warn-line:#854f0b;
+    --charge:#f0997b; --e1:#f0997b; --e2:#85b7eb; --force:#c2a3e8;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 40px}
+header{padding:20px 0 6px}
+header h1{font-size:20px;font-weight:600;margin:0}
+.sub{color:var(--text-2);font-size:14px}
+nav{position:sticky;top:0;z-index:3;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:16px}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
+.tabs button{flex:0 0 auto;font:inherit;font-size:15px;cursor:pointer;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--line-2);background:var(--surface);color:var(--text)}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){.tabs button[aria-selected="true"]{color:#0b1e33}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:16px}
+h2{font-size:18px;margin:0 0 10px;font-weight:600}
+h3{font-size:17px;margin:0 0 12px;font-weight:600}
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.marks{font-size:13px;color:var(--text-2);white-space:nowrap}
+.figure{display:flex;justify-content:center;margin:14px 0}
+.figure svg{width:100%;max-width:440px;height:auto}
+.task{background:var(--accent-bg);border:1px solid var(--accent-line);border-radius:8px;padding:12px 14px;margin-top:12px}
+.part{font-weight:600;margin-right:6px}
+.label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);font-weight:600;margin-bottom:6px}
+.sol h3 .tag{display:inline-block;background:var(--surface-alt);border:1px solid var(--line);border-radius:6px;padding:0 8px;margin-right:6px}
+.step{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.step:first-of-type{border-top:none;padding-top:0}
+.num{flex:0 0 28px;height:28px;border-radius:50%;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-line);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.step .t{font-weight:600}
+.step .b{min-width:0}
+.answer{background:var(--ok-bg);border:1px solid var(--ok-line);color:var(--text);border-radius:8px;padding:12px 14px;margin-top:12px}
+.answer b.h{color:var(--ok)}
+.tip{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:8px;padding:12px 14px;margin-top:12px}
+.tip b.h{color:var(--warn)}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif;font-style:italic;font-size:1.08em}
+.eq{display:block;text-align:center;margin:12px 0;font-size:1.12em;line-height:2.4;
+  font-family:"Cambria Math","Times New Roman",Georgia,serif;overflow-x:auto}
+.eq .m{font-size:1em}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle}
+.frac>span{padding:0 4px;white-space:nowrap;line-height:1.35}
+.frac>span:first-child{border-bottom:1.5px solid currentColor}
+.nw{white-space:nowrap}
+table.t{border-collapse:collapse;width:100%;margin:8px 0;font-size:15px}
+table.t th,table.t td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+table.t th{background:var(--surface-alt)}
+.pager{display:flex;justify-content:space-between;gap:10px}
+.pager button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--text);padding:10px 14px}
+.pager button:disabled{opacity:.4;cursor:default}
+footer{text-align:center;color:var(--text-3);font-size:13px;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Physics test — worked solutions</h1>
+    <div class="sub" id="testTitle"></div>
+  </header>
+  <nav><div class="tabs" role="tablist" id="tabs"></div></nav>
+  <main id="panel" role="tabpanel"></main>
+  <div class="pager">
+    <button id="prev">← Previous</button>
+    <button id="next">Next →</button>
+  </div>
+  <footer>Solutions created by Odireleng for Mokgadi</footer>
+</div>
+
+<script>
+const TEST = {
+  title: "Electric charge, field, capacitors and circuits",
+  minutes: 125,
+  questions: [
+    {
+      number: "1",
+      marks: 8,
+      text: `Two particles, each carrying charge <span class="m">+q</span>, are held at rest on the <span class="m">y</span> axis: particle 1 at <span class="m">y = +a</span> and particle 2 at <span class="m">y = −a</span>. The point <span class="m">P</span> lies on the <span class="m">x</span> axis a distance <span class="m">x</span> from the origin, as shown. Write your answers in terms of <span class="m">k</span>, <span class="m">q</span>, <span class="m">a</span> and <span class="m">x</span>.`,
+      figure: "twoCharges",
+      parts: [
+        { label: "(a)", marks: 3, text: `Copy the diagram and draw on it the electric field contribution at <span class="m">P</span> due to each particle, labelling them <b>E</b><sub>1</sub> and <b>E</b><sub>2</sub>. Hence explain why the <span class="m">y</span> component of the resultant electric field at <span class="m">P</span> is zero.` },
+        { label: "(b)", marks: 5, text: `Show that the magnitude of the resultant electric field at <span class="m">P</span> is
+          <div class="eq m"><span>E =</span><span class="frac"><span>2kqx</span><span>(x² + a²)<sup>3/2</sup></span></span></div>` }
+      ]
+    },
+    {
+      number: "2",
+      marks: 10,
+      text: `Two small identical metal spheres carry charges of <span class="m">q<sub>1</sub> = +2.0 μC</span> and <span class="m">q<sub>2</sub> = +3.0 μC</span>, respectively. The centres of the spheres are initially separated by a distance of 0.20 m.`,
+      parts: [
+        { label: "(a)", marks: 2, text: `Do the two spheres attract or repel each other? Briefly explain.` },
+        { label: "(b)", marks: 4, text: `Calculate the magnitude of the electric force between the two spheres.` },
+        { label: "(c)", marks: 2, text: `The distance between the spheres is now increased to 0.40 m. Without repeating the full calculation, determine the new magnitude of the electric force.` },
+        { label: "(d)", marks: 2, text: `Suppose the charge on the second sphere were changed from +3.0 μC to −3.0 μC, while keeping the separation equal to 0.20 m. How would the magnitude and direction of the force change?` }
+      ],
+      note: `Use <span class="m">k</span> = 9.0 × 10<sup>9</sup> N m²/C².`
+    },
+    {
+      number: "3",
+      marks: 10,
+      text: `A capacitor is charged and then disconnected from the battery.`,
+      parts: [
+        { label: "(a)", marks: 4, text: `The separation between the plates is doubled. What happens to the charge <span class="m">Q</span>, the electric field <span class="m">E</span>, and the potential difference <span class="m">V</span>? Give a one-line justification for each.` },
+        { label: "(b)", marks: 3, text: `A dielectric is now inserted between the plates. Does the electric field between the plates increase or decrease? Explain briefly in terms of polarization.` },
+        { label: "(c)", marks: 3, text: `In one or two sentences, explain why the capacitor stores electric potential energy when it is charged.` }
+      ]
+    },
+    {
+      number: "4",
+      marks: null,
+      text: `Two large, oppositely and uniformly charged parallel plates are held 10 mm apart. An electron is projected halfway between the plates, parallel to them, with an initial speed of
+        <div class="eq m"><span>v<sub>0</sub> = 5.0 × 10<sup>6</sup> m/s.</span></div>
+        The electron strikes the upper plate at a horizontal distance of 35 mm from the point where it was projected.`,
+      parts: [
+        { label: "(a)", marks: null, text: `Which plate is negatively charged?` },
+        { label: "(b)", marks: null, text: `What is the magnitude of the surface charge density on each plate?` }
+      ]
+    },
+    {
+      number: "5",
+      marks: null,
+      text: `A field-line diagram represents the electric field produced by three charged particles carrying charges
+        <div class="eq m"><span>+6.0 μC, &nbsp;&nbsp; −2.0 μC, &nbsp;&nbsp; −4.0 μC.</span></div>
+        In this diagram, 12 field lines leave the +6.0&nbsp;μC particle.`,
+      parts: [
+        { label: "(a)", marks: null, text: `How many field lines end on each of the two negatively charged particles? Explain your reasoning.` },
+        { label: "(b)", marks: null, text: `Draw each charge on its own, as an isolated particle, with its electric field lines. Use the same scale as part (a), so each sketch has the correct number of lines. Put arrows on the lines to show the direction of the field.` }
+      ]
+    }
+    ,{
+      number: "6",
+      marks: 5,
+      text: `A small, 3.00 g charged plastic ball is suspended by a 25.0 cm long string in a uniform electric field, as shown in the figure. The ball is in equilibrium when the string makes a 20.0° angle with the vertical.`,
+      figure: "hangingBall",
+      parts: [
+        { label: "", marks: null, text: `What is the net charge on the ball?` }
+      ],
+      note: `Use <span class="m">g</span> = 9.8 m/s².`
+    }
+    ,{
+      number: "7",
+      marks: 8,
+      text: `Two capacitor plates, each of area 0.05 m², are 1.5 cm apart. A slab of dielectric constant 4 and thickness 1.5 cm is placed a third of the way into the air gap between the plates, as shown. The composite can be considered to be two capacitors.`,
+      figure: "slabCapacitor",
+      parts: [
+        { label: "(a)", marks: 1, text: `Are the capacitors in series or in parallel?` },
+        { label: "(b)", marks: 7, text: `Calculate the new capacitance.` }
+      ],
+      note: `Use <span class="m">ε</span><sub>0</sub> = 8.85 × 10<sup>−12</sup> C²/(N m²).`
+    }
+    ,{
+      number: "8",
+      marks: 13,
+      text: `A small charged sphere of mass 0.4 g hangs by a thread between two oppositely charged vertical plates. The separation between the plates is 50 mm. A potential difference of 5&nbsp;kV between the plates causes the thread to make an angle of 45° with the vertical.`,
+      parts: [
+        { label: "(a)", marks: 3, text: `Draw a free-body diagram for the sphere. Show and label every force acting on it, and mark the 45° angle.` },
+        { label: "(b)", marks: 10, text: `Calculate the magnitude of the charge on the sphere.` }
+      ],
+      note: `Use <span class="m">g</span> = 9.8 m/s².`
+    }
+    ,{
+      number: "9",
+      marks: null,
+      text: `A small sphere carrying 6.0&nbsp;nC of charge is placed 100&nbsp;mm from a small sphere carrying 3.0&nbsp;nC of charge. Assume the spheres are tiny relative to the 100&nbsp;mm separation distance.`,
+      parts: [
+        { label: "", marks: null, text: `At what position on the line joining the spheres is the electric field magnitude zero?` }
+      ]
+    }
+    ,{
+      number: "10",
+      marks: null,
+      text: `Two point charges, <span style="white-space:nowrap"><span class="m">Q</span><sub>1</sub> = +5.8&nbsp;μC</span> and <span style="white-space:nowrap"><span class="m">Q</span><sub>2</sub> = −8.0&nbsp;μC</span>, are 6.0&nbsp;cm apart, as shown. Assume no other charges are nearby.`,
+      figure: "midpoint",
+      parts: [
+        { label: "", marks: null, text: `Determine the magnitude and direction of the electric field at the point midway between the two charges.` }
+      ]
+    }
+    ,{
+      number: "11",
+      marks: 20,
+      text: `Three capacitors are connected to a battery as shown in the figure. Take <span class="m">C</span><sub>1</sub> = <span class="m">C</span><sub>2</sub> = <span class="m">C</span><sub>3</sub> = <span style="white-space:nowrap"><span class="m">C</span> = 3.0&nbsp;μF</span>.`,
+      figure: "capCircuit",
+      parts: [
+        { label: "(a)", marks: 4, text: `Determine the capacitance of a single capacitor that would have the same effect as the combination shown in the figure.` },
+        { label: "(b)", marks: 6, text: `If the battery voltage is 4.0&nbsp;V, determine the charge on each capacitor and the voltage across each.` },
+        { label: "(c)", marks: 10, text: `A parallel-plate capacitor with air between the plates is charged to a voltage of 300&nbsp;V, and the battery is disconnected. The charged capacitor is then connected to an uncharged capacitor with the same dimensions but with the space between the plates filled with a dielectric. If the p.d. across the combination is 60&nbsp;V, calculate the dielectric constant of the dielectric.` }
+      ]
+    }
+    ,{
+      number: "12",
+      marks: null,
+      text: `Three resistors are connected to a 12.0&nbsp;V battery as shown in the figure.`,
+      figure: "resistors",
+      parts: [
+        { label: "", marks: null, text: `Determine the equivalent resistance of the circuit.` }
+      ]
+    }
+  ]
+};
+
+const FIGURES = {
+  resistors: `
+<svg viewBox="0 0 420 210" role="img" aria-label="750 ohm and 680 ohm resistors in parallel; that pair is in series with a 990 ohm resistor and a 12.0 V battery">
+  <g stroke="var(--text)" stroke-width="1.6" fill="none" stroke-linejoin="round">
+    <line x1="110" y1="40" x2="330" y2="40"/>
+    <path d="M110 40 V70 l8 5 l-16 10 l16 10 l-16 10 l16 10 l-16 10 l8 5 V160"/><path d="M220 40 V70 l8 5 l-16 10 l16 10 l-16 10 l16 10 l-16 10 l8 5 V160"/><path d="M330 40 V70 l8 5 l-16 10 l16 10 l-16 10 l16 10 l-16 10 l8 5 V160"/>
+    <line x1="110" y1="160" x2="262" y2="160"/>
+    <line x1="274" y1="160" x2="330" y2="160"/>
+    <line x1="262" y1="146" x2="262" y2="174"/>
+    <line x1="274" y1="153" x2="274" y2="167" stroke-width="3"/>
+  </g>
+  <circle cx="220" cy="40" r="3.5" fill="var(--text)"/>
+  <circle cx="220" cy="160" r="3.5" fill="var(--text)"/>
+  <g fill="var(--text)" font-family="Georgia,serif" font-size="16">
+    <text x="92" y="106" text-anchor="end">750 Ω</text>
+    <text x="202" y="106" text-anchor="end">680 Ω</text>
+    <text x="346" y="106">990 Ω</text>
+    <text x="268" y="196" text-anchor="middle">12.0 V</text>
+  </g>
+</svg>`,
+  capCircuit: `
+<svg viewBox="0 0 420 250" role="img" aria-label="Circuit: C2 and C3 in parallel, that pair in series with C1 and a battery V">
+  <g stroke="var(--text)" stroke-width="1.6" fill="none">
+    <polyline points="140,110 60,110 60,215 105,215"/>
+    <polyline points="280,110 360,110 360,215 305,215"/>
+    <line x1="117" y1="215" x2="293" y2="215"/>
+    <polyline points="205,50 140,50 140,155 205,155"/>
+    <polyline points="215,50 280,50 280,155 215,155"/>
+    <line x1="205" y1="36" x2="205" y2="64"/><line x1="215" y1="36" x2="215" y2="64"/>
+    <line x1="205" y1="141" x2="205" y2="169"/><line x1="215" y1="141" x2="215" y2="169"/>
+    <line x1="293" y1="201" x2="293" y2="229"/><line x1="305" y1="201" x2="305" y2="229"/>
+    <line x1="105" y1="199" x2="105" y2="231"/>
+    <line x1="117" y1="207" x2="117" y2="223" stroke-width="3"/>
+  </g>
+  <g fill="var(--text)" font-family="Georgia,serif" font-size="16" font-style="italic" text-anchor="middle">
+    <text x="210" y="26">C₂</text>
+    <text x="210" y="190">C₃</text>
+    <text x="299" y="192">C₁</text>
+    <text x="111" y="190">V</text>
+  </g>
+</svg>`,
+  midpoint: `
+<svg viewBox="0 0 420 150" role="img" aria-label="Q1 positive on the left and Q2 negative on the right, 6.0 cm apart, with the midpoint P marked half-way between them">
+  <defs><marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+  <line x1="30" y1="70" x2="390" y2="70" stroke="var(--line-2)" stroke-width="1.2"/>
+  <circle cx="80" cy="70" r="13" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="340" cy="70" r="13" fill="var(--surface-alt)" stroke="var(--accent)" stroke-width="2"/>
+  <circle cx="210" cy="70" r="4" fill="var(--text)"/>
+  <g fill="var(--text)" font-size="18" font-weight="600" text-anchor="middle" font-family="Arial,sans-serif">
+    <text x="80" y="76">+</text><text x="340" y="76">−</text>
+  </g>
+  <g fill="var(--text)" font-family="Georgia,serif" font-size="16" text-anchor="middle">
+    <text x="80" y="38" font-style="italic">Q₁ &gt; 0</text>
+    <text x="340" y="38" font-style="italic">Q₂ &lt; 0</text>
+    <text x="210" y="52" font-style="italic">P</text>
+    <text x="145" y="128" font-style="italic">ℓ/2</text>
+    <text x="275" y="128" font-style="italic">ℓ/2</text>
+  </g>
+  <g style="color:var(--text-2)" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3">
+    <line x1="84" y1="104" x2="206" y2="104" marker-start="url(#ah4)" marker-end="url(#ah4)"/>
+    <line x1="214" y1="104" x2="336" y2="104" marker-start="url(#ah4)" marker-end="url(#ah4)"/>
+  </g>
+</svg>`,
+  slabCapacitor: `
+<svg viewBox="0 0 420 200" role="img" aria-label="Two horizontal capacitor plates 1.5 cm apart; a hatched dielectric slab fills the full gap over the right-hand third of the plates">
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="var(--surface-alt)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--text-2)" stroke-width="2.5"/>
+    </pattern>
+    <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+  </defs>
+  <rect x="215" y="42" width="95" height="116" fill="url(#hatch)" stroke="var(--text-2)" stroke-width="1"/>
+  <line x1="25" y1="40" x2="310" y2="40" stroke="var(--text)" stroke-width="3"/>
+  <line x1="25" y1="160" x2="310" y2="160" stroke="var(--text)" stroke-width="3"/>
+  <g style="color:var(--text)" stroke="currentColor" stroke-width="1.2">
+    <line x1="335" y1="148" x2="335" y2="52" marker-start="url(#ah3)" marker-end="url(#ah3)"/>
+  </g>
+  <text x="348" y="106" fill="var(--text)" font-family="Georgia,serif" font-size="16">1.5 cm</text>
+  <text x="120" y="106" fill="var(--text-2)" font-family="Georgia,serif" font-size="15" text-anchor="middle">air</text>
+  <text x="262" y="185" fill="var(--text-2)" font-family="Georgia,serif" font-size="15" text-anchor="middle">dielectric, κ = 4</text>
+</svg>`,
+  hangingBall: `
+<svg viewBox="0 0 420 320" role="img" aria-label="A ball of mass 3.00 g hangs from a 25.0 cm string at 20.0 degrees to the vertical, displaced to the right, in a uniform electric field of 1.50 times 10 to the 3 newtons per coulomb pointing to the right">
+  <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+  <rect x="100" y="30" width="110" height="8" fill="var(--line-2)"/>
+  <line x1="155" y1="38" x2="155" y2="290" stroke="var(--text-2)" stroke-dasharray="4 4" stroke-width="1"/>
+  <line x1="155" y1="38" x2="230" y2="245" stroke="var(--text)" stroke-width="1.6"/>
+  <path d="M155 98 A60 60 0 0 0 175.5 94.4" fill="none" stroke="var(--text)" stroke-width="1.2"/>
+  <circle cx="234" cy="256" r="12" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <g style="color:var(--accent)" stroke="currentColor" stroke-width="1.4">
+    <line x1="285" y1="120" x2="395" y2="120" marker-end="url(#ah2)"/>
+    <line x1="285" y1="160" x2="395" y2="160" marker-end="url(#ah2)"/>
+    <line x1="285" y1="200" x2="395" y2="200" marker-end="url(#ah2)"/>
+    <line x1="285" y1="240" x2="395" y2="240" marker-end="url(#ah2)"/>
+    <line x1="285" y1="280" x2="395" y2="280" marker-end="url(#ah2)"/>
+  </g>
+  <g style="color:var(--text)" stroke="currentColor" stroke-width="1.2">
+    <line x1="30" y1="150" x2="75" y2="150" marker-end="url(#ah2)"/>
+    <line x1="40" y1="160" x2="40" y2="115" marker-end="url(#ah2)"/>
+  </g>
+  <g fill="var(--text)" font-family="Georgia,serif" font-size="16">
+    <text x="285" y="95" font-weight="600">E = 1.50 × 10³ N/C</text>
+    <text x="198" y="150">25.0 cm</text>
+    <text x="146" y="122" text-anchor="end">20.0°</text>
+    <text x="234" y="296" text-anchor="middle" font-style="italic">m = 3.00 g</text>
+    <text x="82" y="155" font-style="italic">x</text>
+    <text x="35" y="108" font-style="italic">y</text>
+  </g>
+</svg>`,
+  twoCharges: `
+<svg viewBox="0 0 420 300" role="img" aria-label="Two charges +q on the y axis at y=+a and y=-a, point P on the x axis at distance x">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+  <g style="color:var(--text)" stroke="currentColor" fill="none" stroke-width="1.4">
+    <line x1="30" y1="150" x2="390" y2="150" marker-end="url(#ah)"/>
+    <line x1="110" y1="280" x2="110" y2="20" marker-end="url(#ah)"/>
+  </g>
+  <g stroke="var(--text-2)" stroke-dasharray="2 4" stroke-width="1.4" fill="none">
+    <line x1="110" y1="70" x2="300" y2="150"/>
+    <line x1="110" y1="230" x2="300" y2="150"/>
+  </g>
+  <g style="color:var(--text-2)" stroke="currentColor" stroke-width="1" fill="none">
+    <line x1="114" y1="175" x2="296" y2="175" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  </g>
+  <circle cx="110" cy="70" r="8" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="110" cy="230" r="8" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="300" cy="150" r="5" fill="var(--text)"/>
+  <g fill="var(--text)" font-family="Georgia,serif" font-style="italic" font-size="17">
+    <text x="62" y="76">+q</text><text x="62" y="236">+q</text>
+    <text x="126" y="62">y = +a</text><text x="126" y="252">y = −a</text>
+    <text x="294" y="134">P</text><text x="200" y="196">x</text>
+    <text x="398" y="156">x</text><text x="104" y="16">y</text>
+  </g>
+</svg>`
+};
+
+/* ---------- small helpers for writing maths ---------- */
+const v  = s => `<span class="m">${s}</span>`;
+const fr = (a,b) => `<span class="frac"><span>${a}</span><span>${b}</span></span>`;
+const eq = (...xs) => `<div class="eq">${xs.map(x=>`<span class="nw">${x}</span>`).join(" ")}</div>`;
+const sci = (a,b) => `${a} × 10<sup>${b}</sup>`;
+
+/* ---------- solution diagrams ---------- */
+const AH = (id,color) => `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${color}"/></marker>`;
+const SVGT = `fill="var(--text)" font-family="Georgia,serif" font-size="21"`;
+
+function radial(cx,cy,n,out,color,label){
+  let s = "";
+  for (let i=0;i<n;i++){
+    const a = 2*Math.PI*i/n - Math.PI/2;
+    const x1 = cx+22*Math.cos(a), y1 = cy+22*Math.sin(a), x2 = cx+62*Math.cos(a), y2 = cy+62*Math.sin(a);
+    s += out ? `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" marker-end="url(#ar5)"/>`
+             : `<line x1="${x2.toFixed(1)}" y1="${y2.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" marker-end="url(#ar5)"/>`;
+  }
+  return `<g stroke="var(--text-2)" stroke-width="1.4">${s}</g>
+    <circle cx="${cx}" cy="${cy}" r="16" fill="var(--surface-alt)" stroke="${color}" stroke-width="2"/>
+    <text x="${cx}" y="${cy+6}" text-anchor="middle" font-size="21" font-weight="600" fill="var(--text)" font-family="Arial,sans-serif">${out?"+":"−"}</text>
+    <text x="${cx}" y="${cy+92}" text-anchor="middle" ${SVGT}>${label}</text>`;
+}
+
+function fbd(angleDeg, lenT, lenG, lenE, labT, labG, labE){
+  const a = angleDeg*Math.PI/180, cx=200, cy=140;
+  const tx = cx - lenT*Math.sin(a), ty = cy - lenT*Math.cos(a);
+  const ax = cx - 46*Math.sin(a), ay = cy - 46*Math.cos(a);
+  return `<svg viewBox="0 0 400 270" role="img" aria-label="Free-body diagram: tension along the thread, weight down, electric force horizontal">
+  <defs>${AH("arF","var(--force)")}</defs>
+  <line x1="${cx}" y1="${cy}" x2="${cx}" y2="20" stroke="var(--text-3)" stroke-dasharray="4 4"/>
+  <path d="M${cx} ${cy-46} A46 46 0 0 0 ${ax.toFixed(1)} ${ay.toFixed(1)}" fill="none" stroke="var(--text)"/>
+  <g stroke="var(--force)" stroke-width="2.4">
+    <line x1="${cx}" y1="${cy}" x2="${tx.toFixed(1)}" y2="${ty.toFixed(1)}" marker-end="url(#arF)"/>
+    <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy+lenG}" marker-end="url(#arF)"/>
+    <line x1="${cx}" y1="${cy}" x2="${cx+lenE}" y2="${cy}" marker-end="url(#arF)"/>
+  </g>
+  <circle cx="${cx}" cy="${cy}" r="9" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <g ${SVGT}>
+    <text x="${(tx-8).toFixed(0)}" y="${(ty+4).toFixed(0)}" text-anchor="end" font-style="italic">${labT}</text>
+    <text x="${cx+12}" y="${cy+lenG}" font-style="italic">${labG}</text>
+    <text x="${cx+lenE+8}" y="${cy+5}" font-style="italic">${labE}</text>
+    <text x="${cx+8}" y="${cy-54}" font-size="19">${angleDeg}°</text>
+  </g>
+</svg>`;
+}
+
+const SFIG = {
+  q1a: `<svg viewBox="0 0 470 300" role="img" aria-label="Field vectors E1 and E2 at P, each pointing away from its charge; their vertical parts cancel and horizontal parts add">
+  <defs>${AH("a1","var(--e1)")}${AH("a2","var(--e2)")}${AH("a0","var(--text)")}</defs>
+  <g stroke="var(--text)" stroke-width="1.3" fill="none">
+    <line x1="30" y1="150" x2="440" y2="150" marker-end="url(#a0)"/>
+    <line x1="110" y1="280" x2="110" y2="20" marker-end="url(#a0)"/>
+  </g>
+  <g stroke="var(--text-3)" stroke-dasharray="2 4" stroke-width="1.3">
+    <line x1="110" y1="70" x2="300" y2="150"/><line x1="110" y1="230" x2="300" y2="150"/>
+  </g>
+  <g stroke-width="2.4">
+    <line x1="300" y1="150" x2="383" y2="185" stroke="var(--e1)" marker-end="url(#a1)"/>
+    <line x1="300" y1="150" x2="383" y2="115" stroke="var(--e2)" marker-end="url(#a2)"/>
+  </g>
+  <g stroke-width="1.4" stroke-dasharray="4 3">
+    <line x1="388" y1="152" x2="388" y2="183" stroke="var(--e1)"/>
+    <line x1="388" y1="148" x2="388" y2="117" stroke="var(--e2)"/>
+  </g>
+  <circle cx="110" cy="70" r="8" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="110" cy="230" r="8" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="300" cy="150" r="5" fill="var(--text)"/>
+  <g ${SVGT} font-style="italic">
+    <text x="64" y="76">+q</text><text x="64" y="236">+q</text>
+    <text x="292" y="136">P</text>
+    <text x="394" y="200" fill="var(--e1)">E₁</text>
+    <text x="394" y="112" fill="var(--e2)">E₂</text>
+  </g>
+  <text x="300" y="250" text-anchor="middle" fill="var(--text-2)" font-size="19" font-family="Arial,sans-serif">down-part of E₁ cancels up-part of E₂</text>
+</svg>`,
+
+  q2: `<svg viewBox="0 0 440 170" role="img" aria-label="Top: two positive spheres push apart. Bottom: a positive and a negative sphere pull together.">
+  <defs>${AH("aq2","var(--force)")}</defs>
+  <g ${SVGT} font-size="19"><text x="20" y="22">q₂ = +3.0 μC: like charges → repel</text><text x="20" y="102">q₂ = −3.0 μC: unlike charges → attract</text></g>
+  <circle cx="170" cy="55" r="14" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="270" cy="55" r="14" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="170" cy="135" r="14" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="270" cy="135" r="14" fill="var(--surface-alt)" stroke="var(--e2)" stroke-width="2"/>
+  <g font-size="21" font-weight="600" text-anchor="middle" fill="var(--text)" font-family="Arial,sans-serif">
+    <text x="170" y="61">+</text><text x="270" y="61">+</text><text x="170" y="141">+</text><text x="270" y="141">−</text></g>
+  <g stroke="var(--force)" stroke-width="2.4">
+    <line x1="154" y1="55" x2="104" y2="55" marker-end="url(#aq2)"/><line x1="286" y1="55" x2="336" y2="55" marker-end="url(#aq2)"/>
+    <line x1="186" y1="135" x2="214" y2="135" marker-end="url(#aq2)"/><line x1="254" y1="135" x2="226" y2="135" marker-end="url(#aq2)"/>
+  </g>
+</svg>`,
+
+  q3b: `<svg viewBox="0 0 420 220" role="img" aria-label="Dielectric between charged plates: molecules line up, leaving negative charge near the positive plate and positive charge near the negative plate, which weakens the field">
+  <defs>${AH("aq3","var(--e2)")}</defs>
+  <line x1="40" y1="30" x2="300" y2="30" stroke="var(--charge)" stroke-width="4"/>
+  <line x1="40" y1="190" x2="300" y2="190" stroke="var(--e2)" stroke-width="4"/>
+  <g font-family="Arial,sans-serif" font-size="20" font-weight="600" fill="var(--text)">
+    <text x="50" y="22">+ + + + + + + + + +</text><text x="50" y="212">− − − − − − − − − −</text></g>
+  <rect x="55" y="50" width="230" height="120" fill="var(--surface-alt)" stroke="var(--line-2)"/>
+  ${[0,1,2].map(r=>[0,1,2,3,4].map(c=>{const x=85+c*42,y=78+r*32;return `<ellipse cx="${x}" cy="${y}" rx="9" ry="14" fill="none" stroke="var(--text-2)"/><text x="${x}" y="${y-2}" text-anchor="middle" font-size="11" fill="var(--e2)" font-family="Arial">−</text><text x="${x}" y="${y+11}" text-anchor="middle" font-size="11" fill="var(--charge)" font-family="Arial">+</text>`}).join("")).join("")}
+  <line x1="350" y1="40" x2="350" y2="180" stroke="var(--e2)" stroke-width="2.4" marker-end="url(#aq3)"/>
+  <g ${SVGT} font-size="19"><text x="360" y="100">plates'</text><text x="360" y="118">field</text></g>
+</svg>`,
+
+  q4: `<svg viewBox="0 0 440 240" role="img" aria-label="Electron enters halfway between plates, curves upward and hits the upper positive plate 35 mm along">
+  <defs>${AH("aq4","var(--text)")}${AH("aq4f","var(--force)")}${AH("aq4e","var(--e2)")}</defs>
+  <line x1="30" y1="40" x2="400" y2="40" stroke="var(--charge)" stroke-width="4"/>
+  <line x1="30" y1="200" x2="400" y2="200" stroke="var(--e2)" stroke-width="4"/>
+  <g font-family="Arial,sans-serif" font-size="19" font-weight="600" fill="var(--text)">
+    <text x="410" y="45">+</text><text x="410" y="205">−</text></g>
+  <path d="M90 120 Q 210 120 330 42" fill="none" stroke="var(--text)" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <circle cx="90" cy="120" r="6" fill="var(--text)"/>
+  <line x1="98" y1="120" x2="150" y2="120" stroke="var(--text)" stroke-width="1.6" marker-end="url(#aq4)"/>
+  <line x1="90" y1="112" x2="90" y2="70" stroke="var(--force)" stroke-width="2.2" marker-end="url(#aq4f)"/>
+  <g stroke="var(--e2)" stroke-width="1.4" opacity=".75">
+    <line x1="250" y1="60" x2="250" y2="185" marker-end="url(#aq4e)"/><line x1="370" y1="60" x2="370" y2="185" marker-end="url(#aq4e)"/></g>
+  <g stroke="var(--text-2)" stroke-width="1"><line x1="90" y1="222" x2="330" y2="222" marker-start="url(#aq4)" marker-end="url(#aq4)"/>
+    <line x1="62" y1="44" x2="62" y2="116" marker-start="url(#aq4)" marker-end="url(#aq4)"/></g>
+  <g ${SVGT} font-size="19">
+    <text x="210" y="238" text-anchor="middle">35 mm</text>
+    <text x="56" y="86" font-size="18" text-anchor="end">5 mm</text>
+    <text x="116" y="110" font-style="italic">v₀</text>
+    <text x="98" y="78" fill="var(--force)">F</text>
+    <text x="258" y="130" fill="var(--e2)" font-style="italic">E</text>
+  </g>
+</svg>`,
+
+  q5: `<svg viewBox="0 0 480 200" role="img" aria-label="Three separate sketches: +6.0 microcoulomb with 12 lines out, -2.0 with 4 lines in, -4.0 with 8 lines in">
+  <defs>${AH("ar5","var(--text-2)")}</defs>
+  ${radial(80,80,12,true,"var(--charge)","+6.0 μC: 12 out")}
+  ${radial(240,80,4,false,"var(--e2)","−2.0 μC: 4 in")}
+  ${radial(400,80,8,false,"var(--e2)","−4.0 μC: 8 in")}
+</svg>`,
+
+  q6: fbd(20, 105, 95, 35, "T", "mg", "qE"),
+
+  q7: `<svg viewBox="0 0 420 230" role="img" aria-label="The capacitor split into two side-by-side capacitors: air over two thirds of the area, dielectric over one third">
+  <defs><pattern id="hatchS" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--surface-alt)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--text-2)" stroke-width="2.5"/></pattern></defs>
+  <rect x="215" y="42" width="95" height="116" fill="url(#hatchS)" stroke="var(--text-2)"/>
+  <line x1="25" y1="40" x2="310" y2="40" stroke="var(--text)" stroke-width="3"/>
+  <line x1="25" y1="160" x2="310" y2="160" stroke="var(--text)" stroke-width="3"/>
+  <line x1="212" y1="25" x2="212" y2="175" stroke="var(--accent)" stroke-dasharray="5 4" stroke-width="1.5"/>
+  <g ${SVGT} font-size="20" text-anchor="middle">
+    <text x="118" y="96" font-style="italic">C</text><text x="132" y="102" font-size="11">air</text>
+    <text x="118" y="122" font-size="18">air</text>
+    <text x="262" y="200">⅓ of the area</text><text x="118" y="200">⅔ of the area</text>
+    <text x="365" y="96" font-style="italic">C</text><text x="381" y="102" font-size="11">diel</text>
+  </g>
+  <text x="210" y="224" text-anchor="middle" fill="var(--text-2)" font-size="18" font-family="Arial,sans-serif">Same plates, same gap, side by side → parallel</text>
+</svg>`,
+
+  q8: fbd(45, 105, 80, 80, "T", "mg", "qE"),
+
+  q9: `<svg viewBox="0 0 440 175" role="img" aria-label="Between the charges, the two fields point in opposite directions and cancel at a point 58.6 mm from the 6.0 nC sphere">
+  <defs>${AH("aq9a","var(--e1)")}${AH("aq9b","var(--e2)")}${AH("aq9","var(--text-2)")}</defs>
+  <line x1="20" y1="85" x2="420" y2="85" stroke="var(--line-2)"/>
+  <circle cx="70" cy="85" r="15" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="370" cy="85" r="11" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="246" cy="85" r="4" fill="var(--text)"/>
+  <line x1="246" y1="52" x2="296" y2="52" stroke="var(--e1)" stroke-width="2.4" marker-end="url(#aq9a)"/>
+  <line x1="246" y1="28" x2="196" y2="28" stroke="var(--e2)" stroke-width="2.4" marker-end="url(#aq9b)"/>
+  <g stroke="var(--text-2)" stroke-width="1"><line x1="74" y1="138" x2="242" y2="138" marker-start="url(#aq9)" marker-end="url(#aq9)"/><line x1="250" y1="138" x2="366" y2="138" marker-start="url(#aq9)" marker-end="url(#aq9)"/></g>
+  <g ${SVGT} font-size="19">
+    <text x="70" y="120" text-anchor="middle">6.0 nC</text><text x="370" y="120" text-anchor="middle">3.0 nC</text>
+    <text x="158" y="162" text-anchor="middle">x = 58.6 mm</text><text x="308" y="162" text-anchor="middle">41.4 mm</text>
+    <text x="304" y="58" fill="var(--e1)">from 6 nC</text><text x="188" y="34" text-anchor="end" fill="var(--e2)">from 3 nC</text>
+  </g>
+</svg>`,
+
+  q10: `<svg viewBox="0 0 420 150" role="img" aria-label="At the midpoint, E1 and E2 both point toward Q2, so they add">
+  <defs>${AH("aqa","var(--e1)")}${AH("aqb","var(--e2)")}</defs>
+  <line x1="30" y1="95" x2="390" y2="95" stroke="var(--line-2)"/>
+  <circle cx="80" cy="95" r="13" fill="var(--surface-alt)" stroke="var(--charge)" stroke-width="2"/>
+  <circle cx="340" cy="95" r="13" fill="var(--surface-alt)" stroke="var(--e2)" stroke-width="2"/>
+  <circle cx="210" cy="95" r="4" fill="var(--text)"/>
+  <g font-size="21" font-weight="600" text-anchor="middle" fill="var(--text)" font-family="Arial,sans-serif"><text x="80" y="101">+</text><text x="340" y="101">−</text></g>
+  <line x1="210" y1="60" x2="268" y2="60" stroke="var(--e1)" stroke-width="2.4" marker-end="url(#aqa)"/>
+  <line x1="210" y1="35" x2="290" y2="35" stroke="var(--e2)" stroke-width="2.4" marker-end="url(#aqb)"/>
+  <g ${SVGT} font-size="19">
+    <text x="276" y="65" fill="var(--e1)">E₁</text>
+    <text x="298" y="40" fill="var(--e2)">E₂</text>
+    <text x="80" y="132" text-anchor="middle">Q₁</text><text x="340" y="132" text-anchor="middle">Q₂</text><text x="210" y="122" text-anchor="middle">P</text>
+  </g>
+</svg>`,
+
+  q11: `<svg viewBox="0 0 420 210" role="img" aria-label="Simplified circuit: C2 and C3 replaced by one 6.0 microfarad capacitor in series with C1 and the battery">
+  <g stroke="var(--text)" stroke-width="1.6" fill="none">
+    <polyline points="205,60 60,60 60,170 105,170"/><polyline points="215,60 360,60 360,170 305,170"/>
+    <line x1="117" y1="170" x2="293" y2="170"/>
+    <line x1="205" y1="44" x2="205" y2="76"/><line x1="215" y1="44" x2="215" y2="76"/>
+    <line x1="293" y1="156" x2="293" y2="184"/><line x1="305" y1="156" x2="305" y2="184"/>
+    <line x1="105" y1="154" x2="105" y2="186"/><line x1="117" y1="162" x2="117" y2="178" stroke-width="3"/>
+  </g>
+  <g ${SVGT} font-size="20" text-anchor="middle">
+    <text x="210" y="32">C₂₃ = 6.0 μF</text><text x="299" y="146">C₁ = 3.0 μF</text><text x="111" y="146">4.0 V</text>
+  </g>
+  <text x="210" y="204" text-anchor="middle" fill="var(--text-2)" font-size="18" font-family="Arial,sans-serif">One loop, nothing branching → series</text>
+</svg>`
+};
+
+/* ---------- worked solutions ---------- */
+const SOL = {
+"1": [
+  { part:"(a)", fig:"q1a", steps:[
+    {t:"Which way does each field point?", b:`A positive charge pushes a test charge away from itself, so its field points <b>away</b> from it. At ${v("P")}, ${v("E")}<sub>1</sub> points away from the top charge (down and to the right), and ${v("E")}<sub>2</sub> points away from the bottom charge (up and to the right).`},
+    {t:"Are they the same size?", b:`Yes. Both charges are ${v("+q")}, and both are the same distance from ${v("P")} (the two dotted lines are equal, by symmetry). Same charge and same distance give the same field strength: ${v("E")}<sub>1</sub> = ${v("E")}<sub>2</sub>.`},
+    {t:"Split each arrow into parts", b:`Each arrow has a sideways (${v("x")}) part and an up/down (${v("y")}) part. ${v("E")}<sub>1</sub>'s ${v("y")}-part points <b>down</b>; ${v("E")}<sub>2</sub>'s ${v("y")}-part points <b>up</b>. They are equal in size, because the arrows are mirror images of each other.`},
+    {t:"Add them", b:`Equal and opposite ${v("y")}-parts cancel to zero. The two ${v("x")}-parts both point to the right, so they add.`}
+  ], answer:`The two fields are equal in size and are mirror images about the ${v("x")} axis, so their ${v("y")} components are equal and opposite and cancel. The resultant field at ${v("P")} points along the +${v("x")} direction only.`,
+  tip:`Draw the arrows starting <b>at P</b>, not at the charges. The field is something that exists at P.`},
+  { part:"(b)", steps:[
+    {t:"Distance from each charge to P", b:`Each charge is ${v("a")} up (or down) and ${v("x")} across from ${v("P")}. Pythagoras gives:${eq(v("r")," = ",`√(${v("x")}² + ${v("a")}²)`)}`},
+    {t:"Field from one charge", b:`Use the point-charge field ${v("E")} = ${v("kq")}/${v("r")}²:${eq(v("E")+"<sub>1</sub> = "+v("E")+"<sub>2</sub> =",fr(v("kq"),v("r")+"²")," = ",fr(v("kq"),v("x")+"² + "+v("a")+"²"))}`},
+    {t:"Find the x-part of one field", b:`Let θ be the angle each dotted line makes with the ${v("x")} axis. From the right-angled triangle:${eq("cos θ =",fr("adjacent","hypotenuse")," = ",fr(v("x"),`√(${v("x")}² + ${v("a")}²)`))}So the ${v("x")}-part of one field is:${eq(v("E")+"<sub>1x</sub> = "+v("E")+"<sub>1</sub> cos θ =",fr(v("kq"),v("x")+"² + "+v("a")+"²"),"·",fr(v("x"),`√(${v("x")}² + ${v("a")}²)`))}`},
+    {t:"Add both x-parts", b:`The ${v("y")}-parts cancel (part a), and there are two equal ${v("x")}-parts:${eq(v("E")," = 2 × ",fr(v("kqx"),`(${v("x")}² + ${v("a")}²) √(${v("x")}² + ${v("a")}²)`))}`},
+    {t:"Tidy up the bottom line", b:`(${v("x")}² + ${v("a")}²) × √(${v("x")}² + ${v("a")}²) = (${v("x")}² + ${v("a")}²)<sup>1</sup> × (${v("x")}² + ${v("a")}²)<sup>1/2</sup> = (${v("x")}² + ${v("a")}²)<sup>3/2</sup>, because powers add when you multiply.`}
+  ], answer:eq(v("E")," = ",fr("2"+v("kqx"),`(${v("x")}² + ${v("a")}²)<sup>3/2</sup>`)),
+  tip:`In a "show that" question the answer is given, so the marks are all for the steps. Don't add the two magnitudes straight away (that gives 2${v("kq")}/(${v("x")}²+${v("a")}²), which is wrong). Always split into components first.`}
+],
+"2": [
+  { part:"(a)", fig:"q2", steps:[
+    {t:"Look at the signs", b:`Both charges are positive (+2.0 μC and +3.0 μC).`},
+    {t:"Apply the rule", b:`Like charges repel; unlike charges attract.`}
+  ], answer:`They <b>repel</b>, because both spheres carry positive charge (like charges repel).`},
+  { part:"(b)", steps:[
+    {t:"Write down what you know, in SI units", b:`${v("q")}<sub>1</sub> = ${sci("2.0","−6")} C, ${v("q")}<sub>2</sub> = ${sci("3.0","−6")} C, ${v("r")} = 0.20 m, ${v("k")} = ${sci("9.0","9")} N m²/C². Remember μ (micro) means × 10<sup>−6</sup>.`},
+    {t:"Coulomb's law", b:eq(v("F")," = ",fr(v("k")+" "+v("q")+"<sub>1</sub>"+v("q")+"<sub>2</sub>",v("r")+"²"))},
+    {t:"Substitute", b:eq(v("F")," = ",fr(`(${sci("9.0","9")})(${sci("2.0","−6")})(${sci("3.0","−6")})`,"(0.20)²")," = ",fr(sci("5.4","−2"),"0.040"))},
+    {t:"Calculate", b:eq(v("F")," = 1.35 N")}
+  ], answer:`${v("F")} ≈ <b>1.4 N</b> (1.35 N)`,
+  tip:`Square the distance: 0.20² = 0.040, not 0.40. Forgetting to square ${v("r")} is the most common slip here.`},
+  { part:"(c)", steps:[
+    {t:"What changed?", b:`Only the distance: it doubled, from 0.20 m to 0.40 m.`},
+    {t:"Use the inverse-square rule", b:`${v("F")} ∝ 1/${v("r")}². If ${v("r")} is multiplied by 2, ${v("F")} is divided by 2² = 4.`},
+    {t:"Calculate", b:eq(v("F")+"<sub>new</sub> = ",fr("1.35 N","4")," = 0.34 N")}
+  ], answer:`${v("F")} ≈ <b>0.34 N</b> (one quarter of the original force)`,
+  tip:`Doubling the distance does <b>not</b> halve the force. It divides it by four.`},
+  { part:"(d)", steps:[
+    {t:"Magnitude", b:`The size of the force uses only the sizes of the charges: |${v("q")}<sub>1</sub>${v("q")}<sub>2</sub>| is still 2.0 × 3.0 = 6.0 (μC)², and ${v("r")} is still 0.20 m. So the magnitude stays the same.`},
+    {t:"Direction", b:`The charges are now opposite (+ and −), and unlike charges attract. The force on each sphere now points <b>toward</b> the other sphere.`}
+  ], answer:`The magnitude is unchanged (1.35 N), but the force reverses direction: the spheres now <b>attract</b> instead of repelling.`}
+],
+"3": [
+  { part:"(a)", steps:[
+    {t:"Charge Q", b:`The battery is disconnected, so the charge has nowhere to go. ${v("Q")} <b>stays the same</b>.`},
+    {t:"Electric field E", b:`Between parallel plates, ${v("E")} = ${v("σ")}/${v("ε")}<sub>0</sub> = ${v("Q")}/(${v("ε")}<sub>0</sub>${v("A")}). ${v("Q")} and ${v("A")} are unchanged, so ${v("E")} <b>stays the same</b>. The field doesn't depend on the gap.`},
+    {t:"Potential difference V", b:`${v("V")} = ${v("Ed")}. ${v("E")} is unchanged and ${v("d")} doubles, so ${v("V")} <b>doubles</b>.`},
+    {t:"Check with capacitance", b:`${v("C")} = ${v("ε")}<sub>0</sub>${v("A")}/${v("d")}, so doubling ${v("d")} halves ${v("C")}. Then ${v("V")} = ${v("Q")}/${v("C")}: same ${v("Q")}, half the ${v("C")}, so ${v("V")} doubles. ✓`}
+  ], answer:`<table class="t"><tr><th>Quantity</th><th>Change</th><th>Reason</th></tr>
+    <tr><td>${v("Q")}</td><td>same</td><td>isolated, nowhere for charge to go</td></tr>
+    <tr><td>${v("E")}</td><td>same</td><td>${v("E")} = ${v("Q")}/(${v("ε")}<sub>0</sub>${v("A")}), no ${v("d")} in it</td></tr>
+    <tr><td>${v("V")}</td><td>doubles</td><td>${v("V")} = ${v("Ed")} and ${v("d")} doubled</td></tr></table>`,
+  tip:`"Disconnected" means ${v("Q")} is fixed. "Still connected to the battery" would mean ${v("V")} is fixed instead. Always check which one the question says.`},
+  { part:"(b)", fig:"q3b", steps:[
+    {t:"What happens inside the dielectric", b:`The plates' field pulls on the charges in each molecule of the dielectric. The negative side of each molecule is pulled toward the + plate and the positive side toward the − plate. The molecules line up: this is <b>polarization</b>.`},
+    {t:"The effect at the surfaces", b:`Inside, the + and − ends of neighbouring molecules cancel. But there is a layer of leftover negative charge on the surface next to the + plate, and positive charge next to the − plate.`},
+    {t:"The effect on the field", b:`These surface charges create their own field, pointing the <b>opposite</b> way to the plates' field. The two partly cancel, so the total field is smaller: ${v("E")} = ${v("E")}<sub>0</sub>/${v("K")}.`}
+  ], answer:`The field <b>decreases</b>. The dielectric polarizes, and the induced surface charges produce a field opposing the original field, so the net field drops (by a factor ${v("K")}).`},
+  { part:"(c)", steps:[
+    {t:"Charging means separating charge", b:`To charge a capacitor, electrons are moved from one plate to the other. Once some charge has moved, the plates attract the charge back, so further charge has to be moved <b>against</b> the electric force.`},
+    {t:"Work done becomes stored energy", b:`The battery does work moving that charge. That work is not lost: it is stored as electric potential energy in the field between the plates, just like lifting a book stores gravitational potential energy. The amount is ${v("U")} = ½${v("QV")}.`}
+  ], answer:`Work must be done to move charge from one plate to the other against the electric field between them. This work is stored as electric potential energy in the field (${v("U")} = ½${v("QV")}).`}
+],
+"4": [
+  { part:"(a)", fig:"q4", steps:[
+    {t:"Which way is the electron pushed?", b:`It hits the <b>upper</b> plate, so the electric force on it points up.`},
+    {t:"Force on a negative charge", b:`For an electron, the force is opposite to the field. Force up means the field points <b>down</b>.`},
+    {t:"Field direction gives the plate charges", b:`Field lines go from + to −. A downward field starts on the upper plate (+) and ends on the lower plate (−). This also makes sense directly: the electron is attracted to the + plate.`}
+  ], answer:`The <b>lower</b> plate is negatively charged. (The electron is pushed away from it and pulled toward the positive upper plate.)`},
+  { part:"(b)", steps:[
+    {t:"Treat it like a projectile", b:`This is like a ball thrown sideways, but the "gravity" is the electric force, pushing up. Sideways: constant speed. Up/down: constant acceleration from rest. Gravity on the electron is tiny compared with the electric force, so we ignore it.`},
+    {t:"Time to travel 35 mm sideways", b:eq(v("t")," = ",fr(v("x"),v("v")+"<sub>0</sub>")," = ",fr("0.035 m",sci("5.0","6")+" m/s")," = ",sci("7.0","−9")+" s")},
+    {t:"Vertical distance", b:`It starts halfway between plates 10 mm apart, so it moves up ${v("y")} = 5 mm = 0.005 m.`},
+    {t:"Acceleration", b:`Starting with no vertical speed: ${v("y")} = ½${v("at")}², so${eq(v("a")," = ",fr("2"+v("y"),v("t")+"²")," = ",fr("2(0.005)",`(${sci("7.0","−9")})²`)," = ",sci("2.04","14")+" m/s²")}`},
+    {t:"Electric field from F = ma = eE", b:eq(v("E")," = ",fr(v("m")+v("a"),v("e"))," = ",fr(`(${sci("9.11","−31")})(${sci("2.04","14")})`,sci("1.60","−19"))," ≈ ",sci("1.16","3")+" N/C")},
+    {t:"Surface charge density", b:`Between two oppositely charged plates, ${v("E")} = ${v("σ")}/${v("ε")}<sub>0</sub>, so${eq(v("σ")," = ",v("ε")+"<sub>0</sub>"+v("E")," = (",sci("8.85","−12"),")(",sci("1.16","3"),") ≈ ",sci("1.0","−8")+" C/m²")}`}
+  ], answer:`${v("σ")} ≈ <b>${sci("1.0","−8")} C/m²</b> on each plate (+ on the upper plate, − on the lower)`,
+  tip:`Use 5 mm, not 10 mm: the electron starts halfway. And convert mm to m before calculating.`}
+],
+"5": [
+  { part:"(a)", steps:[
+    {t:"The rule for field lines", b:`The number of lines drawn is proportional to the size of the charge.`},
+    {t:"Lines per microcoulomb", b:eq(fr("12 lines","6.0 μC")," = 2 lines per μC")},
+    {t:"Apply to each negative charge", b:`−2.0 μC: 2 × 2 = <b>4 lines</b>. −4.0 μC: 2 × 4 = <b>8 lines</b>.`},
+    {t:"Check", b:`4 + 8 = 12. Every line that leaves the positive charge ends on a negative one. ✓`}
+  ], answer:`<b>4 lines</b> end on the −2.0 μC particle and <b>8 lines</b> end on the −4.0 μC particle.`},
+  { part:"(b)", fig:"q5", steps:[
+    {t:"Positive charge: lines point out", b:`Draw 12 straight lines spreading out evenly, like spokes of a wheel, with arrows pointing <b>away</b> from the charge.`},
+    {t:"Negative charges: lines point in", b:`Draw 4 lines for −2.0 μC and 8 lines for −4.0 μC, evenly spaced, with arrows pointing <b>toward</b> the charge.`},
+    {t:"Neatness counts", b:`Space the lines evenly all the way round. The lines must start (or end) on the charge itself, and must never cross each other.`}
+  ], answer:`Three separate sketches: +6.0 μC with 12 outward lines, −2.0 μC with 4 inward lines, −4.0 μC with 8 inward lines.`,
+  tip:`Arrows show the direction a <b>positive</b> test charge would be pushed: away from +, toward −.`}
+],
+"6": [
+  { part:"", fig:"q6", steps:[
+    {t:"Draw the forces on the ball", b:`Three forces act: the weight ${v("mg")} (down), the tension ${v("T")} (along the string), and the electric force ${v("qE")} (sideways, along the field). The ball is in equilibrium, so they balance.`},
+    {t:"Split the tension into parts", b:`The string is 20.0° from the vertical. Up part: ${v("T")} cos 20.0°. Sideways part: ${v("T")} sin 20.0°.`},
+    {t:"Balance up/down and sideways", b:`Up/down: ${v("T")} cos θ = ${v("mg")}<br>Sideways: ${v("T")} sin θ = ${v("qE")}`},
+    {t:"Divide the two equations", b:`${v("T")} cancels, and sin/cos = tan:${eq("tan θ = ",fr(v("qE"),v("mg")),"  ⇒  ",v("q")," = ",fr(v("mg")+" tan θ",v("E")))}`},
+    {t:"Substitute (mass in kg!)", b:eq(v("q")," = ",fr("(0.00300)(9.8)(tan 20.0°)",sci("1.50","3"))," = ",fr("0.0107",sci("1.50","3"))," ≈ ",sci("7.1","−6")+" C")},
+    {t:"Sign of the charge", b:`The ball is pushed in the <b>same</b> direction as ${v("E")} (to the right), so the charge is positive.`}
+  ], answer:`${v("q")} ≈ <b>+${sci("7.1","−6")} C</b> (7.1 μC)`,
+  tip:`The string length (25.0 cm) is not needed. Exam questions sometimes include extra information on purpose. Convert 3.00 g to 0.00300 kg.`}
+],
+"7": [
+  { part:"(a)", fig:"q7", steps:[
+    {t:"Look at how the slab sits", b:`The slab fills the full 1.5 cm gap, but only over one part of the plates. So the plates are split into two side-by-side sections: one with air and one with dielectric.`},
+    {t:"Same plates, same voltage", b:`Both sections are connected to the same two plates, so they share the same potential difference. Capacitors with the same voltage across them are in <b>parallel</b>.`}
+  ], answer:`<b>Parallel.</b> The two sections sit side by side between the same two plates.`,
+  tip:`If the slab covered the whole area but only part of the gap (a layer), the two parts would be stacked one after the other: that would be <b>series</b>.`},
+  { part:"(b)", steps:[
+    {t:"Formula for a parallel-plate capacitor", b:eq(v("C")," = ",fr(v("K")+v("ε")+"<sub>0</sub>"+v("A"),v("d")))+`where ${v("K")} = 1 for air.`},
+    {t:"A useful number first", b:eq(fr(v("ε")+"<sub>0</sub>"+v("A"),v("d"))," = ",fr(`(${sci("8.85","−12")})(0.05)`,"0.015")," = ",sci("2.95","−11")+" F")},
+    {t:"Air section (⅔ of the area, K = 1)", b:eq(v("C")+"<sub>air</sub> = ⅔ × ",sci("2.95","−11")," = ",sci("1.97","−11")+" F")},
+    {t:"Dielectric section (⅓ of the area, K = 4)", b:eq(v("C")+"<sub>diel</sub> = 4 × ⅓ × ",sci("2.95","−11")," = ",sci("3.93","−11")+" F")},
+    {t:"Parallel: just add", b:eq(v("C")," = ",v("C")+"<sub>air</sub> + "+v("C")+"<sub>diel</sub> = ",sci("1.97","−11")," + ",sci("3.93","−11")," = ",sci("5.9","−11")+" F")}
+  ], answer:`${v("C")} ≈ <b>${sci("5.9","−11")} F</b> (59 pF), double the empty capacitor's 29.5 pF`,
+  tip:`Convert to SI: 1.5 cm = 0.015 m. (The original paper printed "1.5 cm²", which is a typo for 1.5 cm.)`}
+],
+"8": [
+  { part:"(a)", fig:"q8", steps:[
+    {t:"List the forces", b:`<b>Weight</b> ${v("mg")}, straight down. <b>Tension</b> ${v("T")}, along the thread, pulling up toward the point it hangs from. <b>Electric force</b> ${v("qE")}, horizontal, because the field between vertical plates is horizontal.`},
+    {t:"Draw from one dot", b:`Represent the sphere as a dot and draw all three arrows starting from it. Mark the 45° angle between the thread (${v("T")}) and the vertical.`}
+  ], answer:`Three labelled arrows from the sphere: ${v("mg")} down, ${v("qE")} horizontal, ${v("T")} along the thread at 45° to the vertical.`,
+  tip:`Don't add a separate "centripetal" or "net" force. The sphere is at rest, so the three forces balance.`},
+  { part:"(b)", steps:[
+    {t:"Field between the plates", b:eq(v("E")," = ",fr(v("V"),v("d"))," = ",fr("5000 V","0.050 m")," = ",sci("1.0","5")+" V/m")},
+    {t:"Balance the forces", b:`Up/down: ${v("T")} cos 45° = ${v("mg")}<br>Sideways: ${v("T")} sin 45° = ${v("qE")}`},
+    {t:"Divide to remove T", b:eq("tan 45° = ",fr(v("qE"),v("mg")))+`Since tan 45° = 1, this simply says ${v("qE")} = ${v("mg")}.`},
+    {t:"Solve for q (mass in kg)", b:eq(v("q")," = ",fr(v("mg"),v("E"))," = ",fr("(0.0004)(9.8)",sci("1.0","5"))," = ",sci("3.9","−8")+" C")}
+  ], answer:`${v("q")} ≈ <b>${sci("3.9","−8")} C</b> (39 nC)`,
+  tip:`Convert everything first: 0.4 g = 0.0004 kg, 50 mm = 0.050 m, 5 kV = 5000 V.`}
+],
+"9": [
+  { part:"", fig:"q9", steps:[
+    {t:"Where could the field be zero?", b:`Both charges are positive, so each field points <b>away</b> from its own charge.<br>• Outside the pair, both fields point the same way, so they add: never zero.<br>• Between the charges, they point in opposite directions, so they can cancel.`},
+    {t:"Closer to which one?", b:`To cancel, the fields must be equal. The 3.0 nC charge is weaker, so the point must be closer to it.`},
+    {t:"Set the fields equal", b:`Let ${v("x")} be the distance from the 6.0 nC sphere. Then it is (0.100 − ${v("x")}) from the 3.0 nC sphere.${eq(fr(v("k")+"(6.0 nC)",v("x")+"²")," = ",fr(v("k")+"(3.0 nC)","(0.100 − "+v("x")+")²"))}`},
+    {t:"Simplify", b:`${v("k")} and nC cancel. Rearranged:${eq(fr("(0.100 − "+v("x")+")²",v("x")+"²")," = ",fr("3.0","6.0")," = 0.5")}Take the square root of both sides:${eq(fr("0.100 − "+v("x"),v("x"))," = √0.5 = 0.707")}`},
+    {t:"Solve", b:eq("0.100 − "+v("x")+" = 0.707"+v("x")," ⇒ 0.100 = 1.707"+v("x")," ⇒ "+v("x")+" = 0.0586 m")}
+  ], answer:`The field is zero <b>58.6 mm from the 6.0 nC sphere</b> (41.4 mm from the 3.0 nC sphere), between them.`,
+  tip:`Check that the answer makes sense: it is closer to the smaller charge. ✓`}
+],
+"10": [
+  { part:"", fig:"q10", steps:[
+    {t:"Distance to the midpoint", b:`Half of 6.0 cm is 3.0 cm, so ${v("r")} = 0.030 m from each charge.`},
+    {t:"Field from Q₁ (positive)", b:eq(v("E")+"<sub>1</sub> = ",fr(v("k")+v("Q")+"<sub>1</sub>",v("r")+"²")," = ",fr(`(${sci("9.0","9")})(${sci("5.8","−6")})`,"(0.030)²")," = ",sci("5.8","7")+" N/C")+`It points <b>away</b> from Q₁, toward Q₂.`},
+    {t:"Field from Q₂ (negative)", b:eq(v("E")+"<sub>2</sub> = ",fr(v("k")+"|"+v("Q")+"<sub>2</sub>|",v("r")+"²")," = ",fr(`(${sci("9.0","9")})(${sci("8.0","−6")})`,"(0.030)²")," = ",sci("8.0","7")+" N/C")+`It points <b>toward</b> Q₂ (fields point toward negative charges).`},
+    {t:"Combine", b:`Both arrows point the same way, toward Q₂, so the sizes add:${eq(v("E")," = ",sci("5.8","7")," + ",sci("8.0","7")," = ",sci("1.38","8")+" N/C")}`}
+  ], answer:`${v("E")} ≈ <b>${sci("1.4","8")} N/C</b> (1.38 × 10⁸ N/C), pointing <b>toward Q₂</b> (the negative charge)`,
+  tip:`Use the size of Q₂ in the formula and decide the direction separately from the diagram. Don't let the minus sign make you subtract.`}
+],
+"11": [
+  { part:"(a)", fig:"q11", steps:[
+    {t:"Spot the parallel pair", b:`C₂ and C₃ connect between the same two points, so they are in parallel. Parallel capacitors add:${eq(v("C")+"<sub>23</sub> = 3.0 + 3.0 = 6.0 μF")}`},
+    {t:"Now it is a simple series loop", b:`C₂₃ and C₁ sit one after the other in a single loop: series. For series:${eq(fr("1",v("C")+"<sub>eq</sub>")," = ",fr("1","6.0")," + ",fr("1","3.0")," = ",fr("1 + 2","6.0")," = ",fr("1","2.0"))}`}
+  ], answer:`${v("C")}<sub>eq</sub> = <b>2.0 μF</b>`,
+  tip:`For series capacitors, the answer is always <b>smaller</b> than the smallest one (2.0 < 3.0 ✓).`},
+  { part:"(b)", steps:[
+    {t:"Total charge from the battery", b:eq(v("Q")," = ",v("C")+"<sub>eq</sub>"+v("V")," = (2.0 μF)(4.0 V) = 8.0 μC")},
+    {t:"Series parts carry the same charge", b:`C₁ and the C₂₃ pair are in series, so each carries the full 8.0 μC.`},
+    {t:"Voltage across C₁", b:eq(v("V")+"<sub>1</sub> = ",fr(v("Q"),v("C")+"<sub>1</sub>")," = ",fr("8.0 μC","3.0 μF")," = 2.7 V")},
+    {t:"Voltage across C₂ and C₃", b:eq(v("V")+"<sub>23</sub> = ",fr("8.0 μC","6.0 μF")," = 1.3 V")+`Parallel capacitors share the same voltage, so C₂ and C₃ each have 1.3 V.`},
+    {t:"Charge on C₂ and C₃", b:eq(v("Q")+"<sub>2</sub> = "+v("Q")+"<sub>3</sub> = (3.0 μF)(1.33 V) = 4.0 μC")+`They split the 8.0 μC equally, because they are identical.`},
+    {t:"Check", b:`2.7 V + 1.3 V = 4.0 V, the battery voltage ✓. 4.0 + 4.0 = 8.0 μC ✓`}
+  ], answer:`<table class="t"><tr><th>Capacitor</th><th>Charge</th><th>Voltage</th></tr>
+    <tr><td>C₁</td><td>8.0 μC</td><td>2.7 V</td></tr>
+    <tr><td>C₂</td><td>4.0 μC</td><td>1.3 V</td></tr>
+    <tr><td>C₃</td><td>4.0 μC</td><td>1.3 V</td></tr></table>`},
+  { part:"(c)", steps:[
+    {t:"Before connecting", b:`The air capacitor ${v("C")} is charged to 300 V, so it holds ${v("Q")} = ${v("C")} × 300.`},
+    {t:"The second capacitor", b:`Same dimensions but filled with dielectric, so its capacitance is ${v("KC")}.`},
+    {t:"After connecting", b:`Charge flows until both have the same voltage (60 V). They are joined plate to plate, so they are in parallel: the total capacitance is ${v("C")} + ${v("KC")}.`},
+    {t:"Charge is conserved", b:`The battery is gone, so no charge is added or lost. It is just shared:${eq(v("C")+" × 300 = ("+v("C")+" + "+v("KC")+") × 60")}`},
+    {t:"Solve for K", b:`Divide both sides by ${v("C")} (it cancels!):${eq("300 = 60(1 + "+v("K")+")  ⇒  1 + "+v("K")+" = 5  ⇒  "+v("K")+" = 4")}`}
+  ], answer:`Dielectric constant ${v("K")} = <b>4</b>`,
+  tip:`You don't need the actual value of ${v("C")}. It cancels out. The key idea is "charge before = charge after".`}
+],
+"12": [
+  { part:"", steps:[
+    {t:"Follow the current from the battery", b:`From one side of the battery, the current reaches the bottom node and splits between the 750 Ω and 680 Ω resistors. They rejoin at the top, then all the current goes through the 990 Ω resistor back to the battery.`},
+    {t:"750 Ω and 680 Ω are in parallel", b:`They connect between the same two points.${eq(fr("1",v("R")+"<sub>p</sub>")," = ",fr("1","750")," + ",fr("1","680")," ⇒ ",v("R")+"<sub>p</sub> = ",fr("750 × 680","750 + 680")," ≈ 357 Ω")}`},
+    {t:"That pair is in series with 990 Ω", b:`All the current passes through both, one after the other, so add:${eq(v("R")+"<sub>eq</sub> = 357 + 990 ≈ 1347 Ω")}`}
+  ], answer:`${v("R")}<sub>eq</sub> ≈ <b>1.35 kΩ</b> (1350 Ω)`,
+  tip:`For two resistors in parallel, "product over sum" (${v("R")}<sub>1</sub>${v("R")}<sub>2</sub>/(${v("R")}<sub>1</sub>+${v("R")}<sub>2</sub>)) is quicker than adding reciprocals. The parallel answer is always smaller than the smaller resistor (357 < 680 ✓).`}
+]
+};
+
+/* ---------- page ---------- */
+const $ = id => document.getElementById(id);
+$("testTitle").textContent = TEST.title;
+const mk = n => n ? n + (n==1 ? " mark" : " marks") : "";
+let cur = 0;
+
+function questionHTML(q){
+  return `<div class="card">
+    <div class="label">Question</div>
+    <div class="qhead"><h2>Question ${q.number}</h2><span class="marks">${mk(q.marks)}</span></div>
+    <div>${q.text}</div>
+    ${q.figure ? `<div class="figure">${FIGURES[q.figure]}</div>` : ""}
+    ${q.parts.map(p=>`<div class="task"><div class="qhead"><span class="part">${p.label||""}</span><span class="marks">${mk(p.marks)}</span></div>${p.text}</div>`).join("")}
+    ${q.note ? `<p class="sub" style="margin:12px 0 0">${q.note}</p>` : ""}
+  </div>`;
+}
+function solutionHTML(q){
+  return (SOL[q.number]||[]).map(s=>`<div class="card sol">
+    <h3>${s.part ? `<span class="tag">${s.part}</span>` : ""}Worked solution</h3>
+    ${s.fig ? `<div class="figure">${SFIG[s.fig]}</div>` : ""}
+    ${s.steps.map((st,i)=>`<div class="step"><div class="num">${i+1}</div><div class="b"><div class="t">${st.t}</div><div>${st.b}</div></div></div>`).join("")}
+    <div class="answer"><b class="h">Answer:</b> ${s.answer}</div>
+    ${s.tip ? `<div class="tip"><b class="h">Watch out:</b> ${s.tip}</div>` : ""}
+  </div>`).join("");
+}
+function render(i, scroll){
+  cur = Math.max(0, Math.min(TEST.questions.length-1, i));
+  const q = TEST.questions[cur];
+  $("panel").innerHTML = questionHTML(q) + solutionHTML(q);
+  document.querySelectorAll("#tabs button").forEach((b,j)=> b.setAttribute("aria-selected", j===cur ? "true" : "false"));
+  const active = document.querySelectorAll("#tabs button")[cur];
+  if (active && active.scrollIntoView) active.scrollIntoView({block:"nearest", inline:"center"});
+  $("prev").disabled = cur===0; $("next").disabled = cur===TEST.questions.length-1;
+  try{ history.replaceState(null, "", "#q"+q.number); }catch(e){}
+  if (scroll) window.scrollTo(0,0);
+}
+$("tabs").innerHTML = TEST.questions.map((q,i)=>`<button role="tab" data-i="${i}">Q${q.number}</button>`).join("");
+$("tabs").querySelectorAll("button").forEach(b=> b.onclick = ()=> render(+b.dataset.i, true));
+$("prev").onclick = ()=> render(cur-1, true);
+$("next").onclick = ()=> render(cur+1, true);
+const start = TEST.questions.findIndex(q=> "#q"+q.number === location.hash);
+render(start >= 0 ? start : 0, false);
+</script>
+</body>
+</html>
